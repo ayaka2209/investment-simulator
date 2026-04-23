@@ -80,6 +80,18 @@ if start:
     # 確信度順にソート
     buy_candidates.sort(key=lambda x: x["confidence"], reverse=True)
 
+    # session_stateに保存してBUYボタンのrerun後も表示を維持
+    st.session_state["scan_results"] = buy_candidates
+    st.session_state["scan_errors"] = errors
+    st.session_state["scan_total"] = total
+
+# session_stateから結果を表示（BUYボタンクリック後のrerunでも維持）
+if "scan_results" in st.session_state:
+    buy_candidates = st.session_state["scan_results"]
+    errors = st.session_state["scan_errors"]
+    total = st.session_state["scan_total"]
+    cash = get_cash()
+
     if buy_candidates:
         st.success(f"✅ {len(buy_candidates)}銘柄が買い候補に選ばれました（{total}銘柄中）")
         st.subheader("🟢 買い候補ランキング")
@@ -123,6 +135,11 @@ if start:
                                     ai_reasoning=c["reasoning"],
                                 )
                                 st.success(f"購入完了: ¥{result['total_jpy']:,.0f}")
+                                # 購入済み候補をリストから除外して再表示
+                                st.session_state["scan_results"] = [
+                                    x for x in st.session_state["scan_results"]
+                                    if x["symbol"] != c["symbol"]
+                                ]
                                 st.rerun()
                             except ValueError as e:
                                 st.error(str(e))
