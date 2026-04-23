@@ -1,41 +1,40 @@
 
-## Skill routing
+## スキルのルーティング
 
-When the user's request matches an available skill, invoke it via the Skill tool. The
-skill has multi-step workflows, checklists, and quality gates that produce better
-results than an ad-hoc answer. When in doubt, invoke the skill. A false positive is
-cheaper than a false negative.
+ユーザーのリクエストが利用可能なスキルに合致する場合、Skillツールを使って呼び出してください。
+スキルには専用のワークフロー・チェックリスト・品質ゲートがあり、場当たり的な回答より良い結果を出します。
+迷ったらスキルを呼び出してください。誤検知より見逃しのほうがコストが高いです。
 
-Key routing rules:
-- Product ideas, "is this worth building", brainstorming → invoke /office-hours
-- Strategy, scope, "think bigger", "what should we build" → invoke /plan-ceo-review
-- Architecture, "does this design make sense" → invoke /plan-eng-review
-- Design system, brand, "how should this look" → invoke /design-consultation
-- Design review of a plan → invoke /plan-design-review
-- Developer experience of a plan → invoke /plan-devex-review
-- "Review everything", full review pipeline → invoke /autoplan
-- Bugs, errors, "why is this broken", "wtf", "this doesn't work" → invoke /investigate
-- Test the site, find bugs, "does this work" → invoke /qa (or /qa-only for report only)
-- Code review, check the diff, "look at my changes" → invoke /review
-- Visual polish, design audit, "this looks off" → invoke /design-review
-- Developer experience audit, try onboarding → invoke /devex-review
-- Ship, deploy, create a PR, "send it" → invoke /ship
-- Merge + deploy + verify → invoke /land-and-deploy
-- Configure deployment → invoke /setup-deploy
-- Post-deploy monitoring → invoke /canary
-- Update docs after shipping → invoke /document-release
-- Weekly retro, "how'd we do" → invoke /retro
-- Second opinion, codex review → invoke /codex
-- Safety mode, careful mode, lock it down → invoke /careful or /guard
-- Restrict edits to a directory → invoke /freeze or /unfreeze
-- Upgrade gstack → invoke /gstack-upgrade
-- Save progress, "save my work" → invoke /context-save
-- Resume, restore, "where was I" → invoke /context-restore
-- Security audit, OWASP, "is this secure" → invoke /cso
-- Make a PDF, document, publication → invoke /make-pdf
-- Launch real browser for QA → invoke /open-gstack-browser
-- Import cookies for authenticated testing → invoke /setup-browser-cookies
-- Performance regression, page speed, benchmarks → invoke /benchmark
-- Review what gstack has learned → invoke /learn
-- Tune question sensitivity → invoke /plan-tune
-- Code quality dashboard → invoke /health
+主なルーティングルール:
+- プロダクトのアイデア、「これ作る価値ある？」、ブレスト → /office-hours
+- 戦略、スコープ、「もっと大きく考えて」、「何を作るべきか」 → /plan-ceo-review
+- アーキテクチャ、「この設計で大丈夫？」 → /plan-eng-review
+- デザインシステム、ブランド、「どう見せるべき？」 → /design-consultation
+- プランのデザインレビュー → /plan-design-review
+- プランの開発者体験レビュー → /plan-devex-review
+- 「全部レビューして」、フルレビューパイプライン → /autoplan
+- バグ、エラー、「なんで壊れてるの」、「動かない」 → /investigate
+- サイトのテスト、バグ探し、「ちゃんと動く？」 → /qa（レポートだけなら /qa-only）
+- コードレビュー、「差分見て」 → /review
+- ビジュアルの改善、デザイン監査、「見た目がおかしい」 → /design-review
+- 開発者体験の監査、オンボーディング確認 → /devex-review
+- リリース、デプロイ、PR作成、「送って」 → /ship
+- マージ＋デプロイ＋確認 → /land-and-deploy
+- デプロイ設定 → /setup-deploy
+- デプロイ後の監視 → /canary
+- リリース後のドキュメント更新 → /document-release
+- 週次振り返り、「今週どうだった？」 → /retro
+- セカンドオピニオン、別視点のレビュー → /codex
+- 安全モード、慎重モード → /careful または /guard
+- ディレクトリへの編集を制限 → /freeze または /unfreeze
+- gstackのアップグレード → /gstack-upgrade
+- 進捗の保存、「作業を保存して」 → /context-save
+- 再開、「どこまでやってたっけ」 → /context-restore
+- セキュリティ監査、OWASP → /cso
+- PDF・ドキュメント作成 → /make-pdf
+- QA用にブラウザを起動 → /open-gstack-browser
+- 認証済みテスト用クッキーのインポート → /setup-browser-cookies
+- パフォーマンス計測 → /benchmark
+- gstackの学習内容を確認 → /learn
+- 質問の感度チューニング → /plan-tune
+- コード品質ダッシュボード → /health
