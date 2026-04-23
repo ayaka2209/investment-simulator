@@ -140,7 +140,10 @@ def execute_trade(
         else:
             return {"action": "HOLD", "message": "HOLDのため取引なし"}
 
-        set_setting("current_cash", str(new_cash))
+        conn.execute(
+            "INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)",
+            ("current_cash", str(new_cash)),
+        )
         conn.execute(
             """INSERT INTO trades
                (timestamp, symbol, market, action, quantity, price_original, price_jpy,
