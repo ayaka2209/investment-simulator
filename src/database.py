@@ -110,7 +110,8 @@ def execute_trade(
             if total_jpy > cash:
                 raise ValueError(f"資金不足: 必要額 ¥{total_jpy:,.0f}, 残高 ¥{cash:,.0f}")
             new_cash = cash - total_jpy
-            holding = get_holding(symbol)
+            holding = conn.execute("SELECT * FROM portfolio WHERE symbol=?", (symbol,)).fetchone()
+            holding = dict(holding) if holding else None
             if holding:
                 new_qty = holding["quantity"] + quantity
                 new_avg = (holding["quantity"] * holding["avg_cost_jpy"] + total_jpy) / new_qty
@@ -125,7 +126,8 @@ def execute_trade(
                 )
 
         elif action == "SELL":
-            holding = get_holding(symbol)
+            holding = conn.execute("SELECT * FROM portfolio WHERE symbol=?", (symbol,)).fetchone()
+            holding = dict(holding) if holding else None
             if not holding or holding["quantity"] < quantity:
                 raise ValueError(f"保有数量不足: 保有 {holding['quantity'] if holding else 0}株, 売却 {quantity}株")
             pnl_jpy = (price_jpy - holding["avg_cost_jpy"]) * quantity
@@ -186,4 +188,10 @@ def reset_portfolio():
     with get_conn() as conn:
         conn.execute("DELETE FROM portfolio")
         conn.execute("DELETE FROM trades")
-        set_setting("current_cash", get_setting("initial_capital"))
+        initial = conn.execute(
+            "SELECT value FROM settings WHERE key=?", ("initial_capital",)
+        ).fetchone()["value"]
+        conn.execute(
+            "INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)",
+            ("current_cash", initial),
+        )
