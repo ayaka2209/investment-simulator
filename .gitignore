@@ -26,3 +26,4 @@ env/
 # IDE
 .vscode/
 .idea/
+.gstack/
