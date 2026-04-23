@@ -11,13 +11,16 @@ st.markdown("**US株**: AAPL, TSLA, NVDA など　|　**日本株**: 7203.T (ト
 
 col_input, col_period = st.columns([2, 1])
 with col_input:
+    # Initialize from URL param → session state → default
     if "analysis_symbol" not in st.session_state:
-        st.session_state["analysis_symbol"] = "AAPL"
+        st.session_state["analysis_symbol"] = st.query_params.get("symbol", "AAPL").upper()
     symbol = st.text_input(
         "銘柄コード",
         key="analysis_symbol",
         placeholder="例: AAPL, TSLA, 7203.T",
     ).strip().upper()
+    if symbol:
+        st.query_params["symbol"] = symbol
 with col_period:
     period_map = {"1日": "1d", "5日": "5d", "1ヶ月": "1mo", "3ヶ月": "3mo"}
     period_label = st.selectbox("期間", list(period_map.keys()), index=2)
