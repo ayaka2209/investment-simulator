@@ -47,7 +47,8 @@ if start:
     total = len(targets)
     cash = get_cash()
 
-    st.markdown(f"**{total}銘柄**を分析中... (現金残高: ¥{cash:,.0f})")
+    scan_status = st.empty()
+    scan_status.markdown(f"**{total}銘柄**を分析中... (現金残高: ¥{cash:,.0f})")
     progress = st.progress(0)
     status_text = st.empty()
 
@@ -76,6 +77,7 @@ if start:
 
     status_text.empty()
     progress.empty()
+    scan_status.empty()
 
     # 確信度順にソート
     buy_candidates.sort(key=lambda x: x["confidence"], reverse=True)

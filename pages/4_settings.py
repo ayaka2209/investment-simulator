@@ -65,7 +65,7 @@ with col_right:
             st.rerun()
 
     st.divider()
-    new_symbol = st.text_input("銘柄を追加", placeholder="例: MSFT, 9984.T")
+    new_symbol = st.text_input("銘柄を追加", placeholder="例: MSFT, 9984.T", key="add_symbol_input")
     if st.button("追加", use_container_width=True):
         if new_symbol.strip():
             sym = new_symbol.strip().upper()
@@ -74,6 +74,7 @@ with col_right:
             if sym not in watchlist:
                 watchlist.append(sym)
                 set_watchlist(watchlist)
+                st.session_state["add_symbol_input"] = ""
                 st.success(f"{sym} を追加しました。")
                 st.rerun()
             else:
